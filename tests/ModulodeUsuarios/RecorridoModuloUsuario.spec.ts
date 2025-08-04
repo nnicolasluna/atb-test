@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test('RecorridoModulo', async ({ page }) => {
+  await page.goto('https://abt.bits.bo/auth/login');
+  await page.getByRole('button', { name: 'INGRESAR COMO FUNCIONARIO' }).click();
+  await page.getByRole('textbox', { name: 'Correo Electronico o Usuario' }).click();
+  await page.getByRole('textbox', { name: 'Correo Electronico o Usuario' }).fill('admin');
+  await page.getByRole('textbox', { name: 'Contraseña' }).click();
+  await page.getByRole('textbox', { name: 'Contraseña' }).fill('Admin1234');
+  await page.getByRole('button', { name: 'INICIAR SESIÓN' }).click();
+  await page.getByRole('tab', { name: 'DEPARTAMENTAL' }).click();
+  await page.getByRole('tab', { name: 'NACIONAL' }).click();
+  await page.getByText('Dirección Ejecutiva Nacional').click();
+  await page.getByRole('radio', { name: 'Usuarios Configurados' }).click();
+  await page.getByRole('radio', { name: 'Usuarios por Configurar' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.locator('app-title-list').getByRole('button').click();
+  await page.getByRole('tab', { name: 'DEPARTAMENTAL' }).click();
+  await page.getByText('La Paz').click();
+  await page.getByRole('radio', { name: 'Usuarios Configurados' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.getByRole('radio', { name: 'Usuarios por Configurar' }).click();
+  await page.locator('app-title-list').getByRole('button').click();
+  await page.getByRole('link', { name: ' Lista de roles' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.getByRole('radio', { name: '' }).click();
+  await page.getByRole('link', { name: ' Registro de Actividades del' }).click();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Descargar xlsx' }).click();
+  const download = await downloadPromise;
+  await page.getByRole('link', { name: ' Lista de usuarios' }).click();
+  await page.getByRole('button', { name: 'AM' }).click();
+  await page.getByRole('button', { name: ' Cerrar Sesión' }).click();
+});
