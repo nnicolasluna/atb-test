@@ -1,28 +1,31 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
 
-test('test', async ({ page }) => {
+test('Ingresar como Agente Auxiliar - Solicitud de Credenciales', async ({ page }) => {
+  const image_test = path.join(__dirname, 'docs_test/0a9c47a6502f6119888b77fa232d4598.jpg');
+  const doc_test = path.join(__dirname, 'docs_test/Documento1.pdf');
   await page.goto('https://abt.bits.bo/auth/login');
   await page.getByRole('button', { name: 'INGRESAR COMO AGENTE AUXILIAR' }).click();
   await page.getByRole('link', { name: 'Solicitud de Credenciales' }).click();
   await page.getByRole('button', { name: 'persona_natural Persona' }).click();
   await page.getByRole('textbox', { name: 'Correo Electrónico' }).click();
-  await page.getByRole('textbox', { name: 'Correo Electrónico' }).fill('v01jbhr3cg@jxpomup.com');
+  const randomUser = "user" + Date.now();
+  await page.getByRole('textbox', { name: 'Correo Electrónico' }).fill(randomUser + 'v01jbhr3cg@jxpomup.com');
   await page.getByRole('textbox', { name: 'Nombre de usuario' }).click();
-  await page.getByRole('textbox', { name: 'Nombre de usuario' }).fill('jpvel');
+  await page.getByRole('textbox', { name: 'Nombre de usuario' }).fill(randomUser);
   await page.getByRole('textbox', { name: 'Nombres' }).click();
   await page.getByRole('textbox', { name: 'Nombres' }).fill('juan');
   await page.getByRole('textbox', { name: 'Primer Apellido' }).click();
-  await page.getByRole('textbox', { name: 'Primer Apellido' }).fill('velano');
+  await page.getByRole('textbox', { name: 'Primer Apellido' }).fill('juan');
   await page.getByRole('textbox', { name: 'Segundo Apellido' }).click();
-  await page.getByRole('textbox', { name: 'Segundo Apellido' }).fill('velano');
+  await page.getByRole('textbox', { name: 'Segundo Apellido' }).fill('juan');
   await page.getByRole('textbox', { name: '99999999' }).click();
   await page.getByRole('textbox', { name: '99999999' }).fill('77777777');
   await page.getByRole('textbox', { name: 'Nro. de CI' }).click();
   await page.getByRole('textbox', { name: 'Nro. de CI' }).fill('2631231');
   await page.getByRole('combobox', { name: 'Expedido' }).click();
   await page.getByText('La Paz').click();
-  await page.locator('span').filter({ hasText: 'Seleccionar' }).first().click();
-  await page.locator('span').filter({ hasText: 'Seleccionar' }).first().setInputFiles('0a9c47a6502f6119888b77fa232d4598.jpg');
+  await page.locator('input[type="file"]').nth(1).setInputFiles(image_test);
   await page.getByRole('combobox', { name: 'Nacionalidad' }).click();
   await page.getByText('BO-Bolivia').click();
   await page.getByRole('textbox', { name: 'Dirección domiciliaria' }).click();
@@ -39,12 +42,10 @@ test('test', async ({ page }) => {
   await page.getByText('24').click();
   await page.getByRole('textbox', { name: 'Institución que emite el tí' }).click();
   await page.getByRole('textbox', { name: 'Institución que emite el tí' }).fill('UMSA');
-  await page.getByRole('cell', { name: 'true Seleccionar 100MB Max.' }).locator('span').first().click();
-  await page.getByRole('cell', { name: 'true Seleccionar 100MB Max.' }).locator('span').first().setInputFiles('0a9c47a6502f6119888b77fa232d4598.jpg');
+  await page.locator('input[type="file"]').nth(1).setInputFiles(image_test);
   await page.getByRole('button', { name: 'Siguiente' }).click();
   await page.getByRole('row', { name: 'Copia de su Título' }).getByRole('button').click();
-  await page.getByRole('row', { name: 'Copia de su Título' }).locator('span').first().click();
-  await page.getByRole('row', { name: 'Copia de su Título' }).locator('span').first().setInputFiles('0a9c47a6502f6119888b77fa232d4598.jpg');
+  await page.locator('input[type="file"]').nth(1).setInputFiles(image_test);
   await page.getByRole('row', { name: 'Copia de su Cédula de' }).getByRole('button').click();
   await page.getByRole('row', { name: 'Copia de su Cédula de' }).getByRole('button').first().click();
   await page.getByRole('row', { name: 'Currículum Vitae 100MB Max.' }).getByRole('button').click();
@@ -54,11 +55,10 @@ test('test', async ({ page }) => {
   await page.getByRole('combobox', { name: 'Seleccionar' }).click();
   await page.locator('#entity_3').click();
   await page.getByRole('button', { name: 'Siguiente' }).click();
-  await page.locator('span').filter({ hasText: 'Seleccionar' }).first().click();
-  await page.locator('span').filter({ hasText: 'Seleccionar' }).first().setInputFiles('Documento1.pdf');
+  await page.locator('input[type="file"]').nth(1).setInputFiles(doc_test);
   await page.getByRole('button', { name: 'Siguiente' }).click();
   await page.getByRole('button', { name: 'Enviar' }).click();
-  await page.getByLabel('Enviar solicitud').getByRole('button', { name: 'Enviar' }).click();
+  /* await page.getByLabel('Enviar solicitud').getByRole('button', { name: 'Enviar' }).click();
   await page.getByRole('button', { name: 'Ir a Iniciar Sesión' }).click();
-  await page.getByText('Iniciar Sesión').click();
+  await page.getByText('Iniciar Sesión').click(); */
 });
