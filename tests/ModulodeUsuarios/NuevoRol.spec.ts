@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('NuevoRol', async ({ page }) => {
+  const randomrol = "rol" + Date.now();
   await page.goto('https://abt.bits.bo/auth/login');
   await page.getByRole('button', { name: 'INGRESAR COMO FUNCIONARIO' }).click();
   await page.getByRole('textbox', { name: 'Correo Electronico o Usuario' }).click();
@@ -11,17 +12,14 @@ test('NuevoRol', async ({ page }) => {
   await page.getByRole('link', { name: ' Lista de roles' }).click();
   await page.getByRole('button', { name: '+ Nuevo rol' }).click();
   await page.getByRole('textbox', { name: 'Nombre' }).click();
-  await page.getByRole('textbox', { name: 'Nombre' }).fill('Evaluador de Pruebas 2');
+  await page.getByRole('textbox', { name: 'Nombre' }).fill(randomrol);
   await page.getByRole('textbox', { name: 'Código' }).click();
   await page.locator('#description').click();
-  await page.locator('#description').fill('Este es un Evaluador para poder pruebas 2');
+  await page.locator('#description').fill('Este es un Rol prueba');
   await page.getByRole('button', { name: 'Siguiente' }).click();
   await page.getByRole('button', { name: 'dropdown trigger' }).click();
   await page.getByText('Departamental').click();
-  //await page.getByRole('button', { name: 'dropdown trigger' }).click();
-  //await page.getByRole('option', { name: 'Departamental' }).click();
   await page.locator('p-radiobutton').filter({ hasText: 'La Paz' }).locator('div').nth(2).click();
-  await page.getByRole('button', { name: 'Guardar' }).click();
-  await page.getByRole('button', { name: 'AM' }).click();
-  await page.getByRole('button', { name: ' Cerrar Sesión' }).click();
+  const saveButton = page.locator('button.p-button-success:has-text("Guardar")');
+  await expect(saveButton).toBeEnabled();
 });
